@@ -38,7 +38,7 @@ fn fistbump() -> Result<(), String> {
     info!("Reading config from file {}", CONFIG_PATH);
     let config_data = match fs::read_to_string(CONFIG_PATH) {
         Ok(n) => n,
-        Err(_) => return Err(format!("Couldn't read config file {}", CONFIG_PATH)),
+        Err(e) => return Err(format!("Couldn't read config file {}: {}", CONFIG_PATH, e)),
     };
     debug!("Got config `{}`", config_data);
 
