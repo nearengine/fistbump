@@ -1,6 +1,7 @@
 # fistbump
 
 [![Crates.io](https://img.shields.io/crates/v/fistbump.svg)](https://crates.io/crates/fistbump)
+[![Languages](https://img.shields.io/badge/languages-Rust-red.svg)]()
 [![license](http://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/chrisshiplet/fistbump/blob/master/LICENSE)
 
 A tiny command line utility for managing your project's version numbers.
