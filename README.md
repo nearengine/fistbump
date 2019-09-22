@@ -10,7 +10,7 @@ A tiny command line utility for managing your project's version numbers.
 
 Obtain the binary from the Releases page and put it somewhere on your PATH. Make sure to `chmod +x` the binary on Linux and MacOS.
 
-_With Cargo:_ Run `cargo install fistbump`
+**With Cargo:** Run `cargo install fistbump`
 
 ## Usage
 
@@ -28,11 +28,6 @@ _With Cargo:_ Run `cargo install fistbump`
       "path": "Cargo.toml",
       "search": "version = \"{current_version}\"",
       "replace": "version = \"{new_version}\""
-    },
-    {
-      "path": "Cargo.lock",
-      "search": "name = \"fistbump\nversion = \"{current_version}\"",
-      "replace": "name = \"fistbump\nversion = \"{new_version}\""
     }
   ],
   "search": "{current_version}",
