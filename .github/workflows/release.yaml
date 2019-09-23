@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: hecrj/setup-rust-action@v1
+      with:
+        rust-version: stable
+    - uses: actions/checkout@v1
+    - name: Build
+      env:
+        TARGET: x86_64-unknown-linux-musl
+      run: cargo build --release --verbose --target $TARGET --locked
+    - uses: Shopify/upload-to-release
+      with:
+        name: fistbump-${GITHUB_REF}-x86_64-unknown-linux-musl
+        path: target/release/fistbump
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        content-type: application/octet-stream
+  build-mac:
+    runs-on: macOS-latest
+    steps:
+    - uses: hecrj/setup-rust-action@v1
+      with:
+        rust-version: stable
+    - uses: actions/checkout@v1
+    - name: Build
+      env:
+        MACOSX_DEPLOYMENT_TARGET: 10.7
+        TARGET: x86_64-apple-darwin
+      run: cargo build --release --verbose --target $TARGET --locked
+    - uses: Shopify/upload-to-release
+      with:
+        name: fistbump-${GITHUB_REF}-x86_64-apple-darwin
+        path: target/release/fistbump
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        content-type: application/octet-stream
+  build-win:
+    runs-on: windows-latest
+    steps:
+    - uses: hecrj/setup-rust-action@v1
+      with:
+        rust-version: stable
+    - uses: actions/checkout@v1
+    - name: Build
+      env:
+        TARGET: x86_64-pc-windows-msvc
+      run: cargo build --release --verbose --target $TARGET --locked
+    - uses: Shopify/upload-to-release
+      with:
+        name: fistbump-${GITHUB_REF}-x86_64-pc-windows-msvc.exe
+        path: target/release/fistbump
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        content-type: application/octet-stream
