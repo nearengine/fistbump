@@ -6,9 +6,10 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
     steps:
-    - uses: hecrj/setup-rust-action@v1
+    - uses: hecrj/setup-rust-action@v1.2.2
       with:
         rust-version: stable
+        targets: 'x86_64-unknown-linux-musl'
     - uses: actions/checkout@v1
     - name: Build
       env:
@@ -23,7 +24,7 @@ jobs:
   build-mac:
     runs-on: macOS-latest
     steps:
-    - uses: hecrj/setup-rust-action@v1
+    - uses: hecrj/setup-rust-action@v1.2.2
       with:
         rust-version: stable
     - uses: actions/checkout@v1
@@ -41,14 +42,14 @@ jobs:
   build-win:
     runs-on: windows-latest
     steps:
-    - uses: hecrj/setup-rust-action@v1
+    - uses: hecrj/setup-rust-action@v1.2.2
       with:
         rust-version: stable
     - uses: actions/checkout@v1
     - name: Build
       env:
         TARGET: x86_64-pc-windows-msvc
-      run: cargo build --release --verbose --target $TARGET --locked
+      run: cargo build --release --verbose --target x86_64-pc-windows-msvc --locked
     - uses: Shopify/upload-to-release@1.0.0
       with:
         name: fistbump-${GITHUB_REF}-x86_64-pc-windows-msvc.exe
