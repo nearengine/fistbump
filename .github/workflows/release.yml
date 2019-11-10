@@ -53,6 +53,6 @@ jobs:
     - uses: Shopify/upload-to-release@1.0.0
       with:
         name: fistbump-${GITHUB_REF}-x86_64-pc-windows-msvc.exe
-        path: target/x86_64-pc-windows-msvc/release/fistbump
+        path: target/x86_64-pc-windows-msvc/release/fistbump.exe
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         content-type: application/octet-stream
