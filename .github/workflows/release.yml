@@ -18,7 +18,7 @@ jobs:
     - uses: Shopify/upload-to-release@1.0.0
       with:
         name: fistbump-${GITHUB_REF}-x86_64-unknown-linux-musl
-        path: target/release/fistbump
+        path: target/$TARGET/release/fistbump
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         content-type: application/octet-stream
   build-mac:
@@ -36,7 +36,7 @@ jobs:
     - uses: Shopify/upload-to-release@1.0.0
       with:
         name: fistbump-${GITHUB_REF}-x86_64-apple-darwin
-        path: target/release/fistbump
+        path: target/$TARGET/release/fistbump
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         content-type: application/octet-stream
   build-win:
@@ -53,6 +53,6 @@ jobs:
     - uses: Shopify/upload-to-release@1.0.0
       with:
         name: fistbump-${GITHUB_REF}-x86_64-pc-windows-msvc.exe
-        path: target/release/fistbump
+        path: target/x86_64-pc-windows-msvc/release/fistbump
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         content-type: application/octet-stream
