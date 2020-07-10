@@ -22,7 +22,7 @@ jobs:
       - shell: bash
         run: |
           echo "${{ steps.create_release.outputs.upload_url }}" > upload_url.txt
-      - name: Upload Release Upload URL
+      - name: Upload Upload URL
         uses: actions/upload-artifact@v1
         with:
           name: upload_url
@@ -40,20 +40,21 @@ jobs:
         env:
           TARGET: x86_64-unknown-linux-musl
         run: cargo build --release --verbose --target $TARGET --locked
-      - name: Download Release Upload URL
+      - name: Download Upload URL
         uses: actions/download-artifact@v1
         with:
           name: upload_url
-      - uses: pCYSl5EDgo/cat@master
-        id: upload_url
-        with:
-          path: upload_url.txt
+      - name: Get Upload URL
+        id: get_release_info
+        run: |
+          value=`cat upload_url/upload_url.txt`
+          echo ::set-output name=upload_url::$value
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.upload_url.outputs.text }}
+          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
           asset_path: target/x86_64-unknown-linux-musl/release/fistbump
           asset_name: fistbump-${{ github.ref }}-x86_64-unknown-linux-musl
           asset_content_type: application/octet-stream
@@ -70,20 +71,21 @@ jobs:
           MACOSX_DEPLOYMENT_TARGET: 10.7
           TARGET: x86_64-apple-darwin
         run: cargo build --release --verbose --target $TARGET --locked
-      - name: Download Release Upload URL
+      - name: Download Upload URL
         uses: actions/download-artifact@v1
         with:
           name: upload_url
-      - uses: pCYSl5EDgo/cat@master
-        id: upload_url
-        with:
-          path: upload_url.txt
+      - name: Get Upload URL
+        id: get_release_info
+        run: |
+          value=`cat upload_url/upload_url.txt`
+          echo ::set-output name=upload_url::$value
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.upload_url.outputs.text }}
+          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
           asset_path: target/x86_64-apple-darwin/release/fistbump
           asset_name: fistbump-${{ github.ref }}-x86_64-apple-darwin
           asset_content_type: application/octet-stream
@@ -99,20 +101,21 @@ jobs:
         env:
           TARGET: x86_64-pc-windows-msvc
         run: cargo build --release --verbose --target x86_64-pc-windows-msvc --locked
-      - name: Download Release Upload URL
+      - name: Download Upload URL
         uses: actions/download-artifact@v1
         with:
           name: upload_url
-      - uses: pCYSl5EDgo/cat@master
-        id: upload_url
-        with:
-          path: upload_url.txt
+      - name: Get Upload URL
+        id: get_release_info
+        run: |
+          value=`cat upload_url/upload_url.txt`
+          echo ::set-output name=upload_url::$value
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.upload_url.outputs.text }}
+          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
           asset_path: target/x86_64-pc-windows-msvc/release/fistbump.exe
           asset_name: fistbump-${{ github.ref }}-x86_64-pc-windows-msvc.exe
           asset_content_type: application/octet-stream
