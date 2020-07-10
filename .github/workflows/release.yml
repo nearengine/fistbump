@@ -19,7 +19,8 @@ jobs:
           release_name: ${{ github.ref }}
           draft: false
           prerelease: false
-      - shell: bash
+      - name: Save Upload URL
+        shell: bash
         run: |
           echo "${{ steps.create_release.outputs.upload_url }}" > upload_url.txt
       - name: Upload Upload URL
@@ -31,11 +32,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: create-release
     steps:
-      - uses: hecrj/setup-rust-action@v1.2.2
+      - name: Setup Rust
+        uses: hecrj/setup-rust-action@v1.2.2
         with:
           rust-version: stable
           targets: "x86_64-unknown-linux-musl"
-      - uses: actions/checkout@v1
+      - name: Checkout Code
+        uses: actions/checkout@v1
       - name: Build
         env:
           TARGET: x86_64-unknown-linux-musl
@@ -62,10 +65,12 @@ jobs:
     runs-on: macOS-latest
     needs: create-release
     steps:
-      - uses: hecrj/setup-rust-action@v1.2.2
+      - name: Setup Rust
+        uses: hecrj/setup-rust-action@v1.2.2
         with:
           rust-version: stable
-      - uses: actions/checkout@v1
+      - name: Checkout Code
+        uses: actions/checkout@v1
       - name: Build
         env:
           MACOSX_DEPLOYMENT_TARGET: 10.7
@@ -93,10 +98,12 @@ jobs:
     runs-on: windows-latest
     needs: create-release
     steps:
-      - uses: hecrj/setup-rust-action@v1.2.2
+      - name: Setup Rust
+        uses: hecrj/setup-rust-action@v1.2.2
         with:
           rust-version: stable
-      - uses: actions/checkout@v1
+      - name: Checkout Code
+        uses: actions/checkout@v1
       - name: Build
         env:
           TARGET: x86_64-pc-windows-msvc
@@ -108,7 +115,7 @@ jobs:
       - name: Get Upload URL
         id: get_release_info
         run: |
-          value=`cat upload_url/upload_url.txt`
+          set /P value=< type upload_url/upload_url.txt
           echo ::set-output name=upload_url::$value
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
