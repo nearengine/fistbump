@@ -1,15 +1,15 @@
 # fistbump
 
-![Build](https://github.com/chrisshiplet/fistbump/workflows/Build%20&%20Test/badge.svg)
+![Build](https://github.com/nearengine/fistbump/workflows/Build%20&%20Test/badge.svg)
 [![Crates.io](https://img.shields.io/crates/v/fistbump.svg)](https://crates.io/crates/fistbump)
 [![Languages](https://img.shields.io/badge/languages-Rust-red.svg)]()
-[![license](http://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/chrisshiplet/fistbump/blob/master/LICENSE)
+[![license](http://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/nearengine/fistbump/blob/master/LICENSE)
 
 A tiny command line utility for managing your project's version numbers.
 
 ## Installation
 
-Obtain the binary from the Releases page and put it somewhere on your PATH. Make sure to `chmod +x` the binary on Linux and MacOS.
+Obtain the binary from the [Releases](https://github.com/nearengine/fistbump/releases) page and put it somewhere on your PATH. Make sure to `chmod +x` the binary on Linux and MacOS.
 
 **With Cargo:** Run `cargo install fistbump`
 
