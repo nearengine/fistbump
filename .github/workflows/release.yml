@@ -28,72 +28,88 @@ jobs:
         with:
           name: upload_url
           path: upload_url.txt
-  # build-linux:
-  #   runs-on: ubuntu-latest
-  #   needs: create-release
-  #   steps:
-  #     - name: Setup Rust
-  #       uses: hecrj/setup-rust-action@v1.2.2
-  #       with:
-  #         rust-version: stable
-  #         targets: "x86_64-unknown-linux-musl"
-  #     - name: Checkout Code
-  #       uses: actions/checkout@v1
-  #     - name: Build
-  #       env:
-  #         TARGET: x86_64-unknown-linux-musl
-  #       run: cargo build --release --verbose --target $TARGET --locked
-  #     - name: Download Upload URL
-  #       uses: actions/download-artifact@v1
-  #       with:
-  #         name: upload_url
-  #     - name: Get Upload URL
-  #       id: get_release_info
-  #       run: |
-  #         value=`cat upload_url/upload_url.txt`
-  #         echo ::set-output name=upload_url::$value
-  #     - name: Upload Release Asset
-  #       uses: actions/upload-release-asset@v1
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       with:
-  #         upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-  #         asset_path: target/x86_64-unknown-linux-musl/release/fistbump
-  #         asset_name: fistbump-${{ github.ref }}-x86_64-unknown-linux-musl
-  #         asset_content_type: application/octet-stream
-  # build-mac:
-  #   runs-on: macOS-latest
-  #   needs: create-release
-  #   steps:
-  #     - name: Setup Rust
-  #       uses: hecrj/setup-rust-action@v1.2.2
-  #       with:
-  #         rust-version: stable
-  #     - name: Checkout Code
-  #       uses: actions/checkout@v1
-  #     - name: Build
-  #       env:
-  #         MACOSX_DEPLOYMENT_TARGET: 10.7
-  #         TARGET: x86_64-apple-darwin
-  #       run: cargo build --release --verbose --target $TARGET --locked
-  #     - name: Download Upload URL
-  #       uses: actions/download-artifact@v1
-  #       with:
-  #         name: upload_url
-  #     - name: Get Upload URL
-  #       id: get_release_info
-  #       run: |
-  #         value=`cat upload_url/upload_url.txt`
-  #         echo ::set-output name=upload_url::$value
-  #     - name: Upload Release Asset
-  #       uses: actions/upload-release-asset@v1
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       with:
-  #         upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-  #         asset_path: target/x86_64-apple-darwin/release/fistbump
-  #         asset_name: fistbump-${{ github.ref }}-x86_64-apple-darwin
-  #         asset_content_type: application/octet-stream
+  build-linux:
+    runs-on: ubuntu-latest
+    needs: create-release
+    steps:
+      - name: Setup Rust
+        uses: hecrj/setup-rust-action@v1.2.2
+        with:
+          rust-version: stable
+          targets: "x86_64-unknown-linux-musl"
+      - name: Checkout Code
+        uses: actions/checkout@v1
+      - name: Build
+        env:
+          TARGET: x86_64-unknown-linux-musl
+        run: cargo build --release --verbose --target $TARGET --locked
+      - name: Compress Binary
+        uses: master-atul/tar-action@v1.0.2
+        id: compress
+        with:
+          command: c
+          files: |
+            ./target/x86_64-unknown-linux-musl/release/fistbump
+          outPath: fistbump-${{ github.ref }}-x86_64-unknown-linux-musl.tar.gz
+      - name: Download Upload URL
+        uses: actions/download-artifact@v1
+        with:
+          name: upload_url
+      - name: Get Upload URL
+        id: get_release_info
+        run: |
+          value=`cat upload_url/upload_url.txt`
+          echo ::set-output name=upload_url::$value
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+          asset_path: fistbump-${{ github.ref }}-x86_64-unknown-linux-musl.tar.gz
+          asset_name: fistbump-${{ github.ref }}-x86_64-unknown-linux-musl.tar.gz
+          asset_content_type: application/octet-stream
+  build-mac:
+    runs-on: macOS-latest
+    needs: create-release
+    steps:
+      - name: Setup Rust
+        uses: hecrj/setup-rust-action@v1.2.2
+        with:
+          rust-version: stable
+      - name: Checkout Code
+        uses: actions/checkout@v1
+      - name: Build
+        env:
+          MACOSX_DEPLOYMENT_TARGET: 10.7
+          TARGET: x86_64-apple-darwin
+        run: cargo build --release --verbose --target $TARGET --locked
+      - name: Compress Binary
+        uses: master-atul/tar-action@v1.0.2
+        id: compress
+        with:
+          command: c
+          files: |
+            ./target/x86_64-apple-darwin/release/fistbump
+          outPath: fistbump-${{ github.ref }}-x86_64-apple-darwin.tar.gz
+      - name: Download Upload URL
+        uses: actions/download-artifact@v1
+        with:
+          name: upload_url
+      - name: Get Upload URL
+        id: get_release_info
+        run: |
+          value=`cat upload_url/upload_url.txt`
+          echo ::set-output name=upload_url::$value
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+          asset_path: fistbump-${{ github.ref }}-x86_64-apple-darwin.tar.gz
+          asset_name: fistbump-${{ github.ref }}-x86_64-apple-darwin.tar.gz
+          asset_content_type: application/octet-stream
   build-win:
     runs-on: windows-latest
     needs: create-release
@@ -108,6 +124,14 @@ jobs:
         env:
           TARGET: x86_64-pc-windows-msvc
         run: cargo build --release --verbose --target x86_64-pc-windows-msvc --locked
+      - name: Compress Binary
+        uses: master-atul/tar-action@v1.0.2
+        id: compress
+        with:
+          command: c
+          files: |
+            ./target/x86_64-pc-windows-msvc/release/fistbump.exe
+          outPath: fistbump-${{ github.ref }}-x86_64-pc-windows-msvc.tar.gz
       - name: Download Upload URL
         uses: actions/download-artifact@v1
         with:
@@ -123,6 +147,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: target/x86_64-pc-windows-msvc/release/fistbump.exe
-          asset_name: fistbump-${{ github.ref }}-x86_64-pc-windows-msvc.exe
+          asset_path: fistbump-${{ github.ref }}-x86_64-pc-windows-msvc.tar.gz
+          asset_name: fistbump-${{ github.ref }}-x86_64-pc-windows-msvc.tar.gz
           asset_content_type: application/octet-stream
