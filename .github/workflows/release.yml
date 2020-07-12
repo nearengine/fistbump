@@ -116,7 +116,7 @@ jobs:
         id: get_release_info
         run: |
           set /P value=<upload_url\upload_url.txt
-          echo ::set-output name=upload_url::%value%
+          echo "::set-output name=upload_url::%value%"
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
