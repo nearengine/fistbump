@@ -76,14 +76,15 @@ jobs:
         id: compress
         with:
           command: c
+          cwd: ./target/x86_64-unknown-linux-musl/release/
           files: |
-            ./target/x86_64-unknown-linux-musl/release/fistbump
+            fistbump
           outPath: ./linux.tar.gz
       - name: Upload Artifacts
         uses: actions/upload-artifact@v1
         with:
           name: uploads
-          path: linux.tar.gz
+          path: ./target/x86_64-unknown-linux-musl/release/linux.tar.gz
   build-mac:
     runs-on: macOS-latest
     steps:
@@ -103,14 +104,15 @@ jobs:
         id: compress
         with:
           command: c
+          cwd: ./target/x86_64-apple-darwin/release/
           files: |
-            ./target/x86_64-apple-darwin/release/fistbump
+            fistbump
           outPath: ./macos.tar.gz
       - name: Upload Artifacts
         uses: actions/upload-artifact@v1
         with:
           name: uploads
-          path: macos.tar.gz
+          path: ./target/x86_64-apple-darwin/release/macos.tar.gz
   build-win:
     runs-on: windows-latest
     steps:
