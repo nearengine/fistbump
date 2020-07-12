@@ -43,7 +43,7 @@ jobs:
         env:
           TARGET: x86_64-unknown-linux-musl
         run: cargo build --release --verbose --target $TARGET --locked
-      - name: Get Upload URL
+      - name: Get Tag Name
         id: get_tag_name
         run: echo "::set-output name=tag_name::${GITHUB_REF/refs\/tags\//}"
       - name: Compress Binary
@@ -87,7 +87,7 @@ jobs:
           MACOSX_DEPLOYMENT_TARGET: 10.7
           TARGET: x86_64-apple-darwin
         run: cargo build --release --verbose --target $TARGET --locked
-      - name: Get Upload URL
+      - name: Get Tag Name
         id: get_tag_name
         run: echo "::set-output name=tag_name::${GITHUB_REF/refs\/tags\//}"
       - name: Compress Binary
@@ -130,7 +130,7 @@ jobs:
         env:
           TARGET: x86_64-pc-windows-msvc
         run: cargo build --release --verbose --target x86_64-pc-windows-msvc --locked
-      - name: Get Upload URL
+      - name: Get Tag Name
         id: get_tag_name
         run: echo "::set-output name=tag_name::${GITHUB_REF/refs\/tags\//}"
       - name: Compress Binary
@@ -149,7 +149,7 @@ jobs:
         id: get_release_info
         run: |
           set /P value=<upload_url\upload_url.txt
-          echo "::set-output name=upload_url::%value%"
+          echo "::set-output name=upload_url::$Env:value"
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
