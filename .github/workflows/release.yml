@@ -43,6 +43,9 @@ jobs:
         env:
           TARGET: x86_64-unknown-linux-musl
         run: cargo build --release --verbose --target $TARGET --locked
+      - name: Get Upload URL
+        id: get_tag_name
+        run: echo "::set-output name=tag_name::${GITHUB_REF/refs\/tags\//}"
       - name: Compress Binary
         uses: master-atul/tar-action@v1.0.2
         id: compress
@@ -50,7 +53,7 @@ jobs:
           command: c
           files: |
             ./target/x86_64-unknown-linux-musl/release/fistbump
-          outPath: fistbump-${{ github.ref }}-x86_64-unknown-linux-musl.tar.gz
+          outPath: ./fistbump-${{ steps.get_tag_name.outputs.tag_name }}-x86_64-unknown-linux-musl.tar.gz
       - name: Download Upload URL
         uses: actions/download-artifact@v1
         with:
@@ -66,8 +69,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: fistbump-${{ github.ref }}-x86_64-unknown-linux-musl.tar.gz
-          asset_name: fistbump-${{ github.ref }}-x86_64-unknown-linux-musl.tar.gz
+          asset_path: fistbump-${{ steps.get_tag_name.outputs.tag_name }}-x86_64-unknown-linux-musl.tar.gz
+          asset_name: fistbump-${{ steps.get_tag_name.outputs.tag_name }}-x86_64-unknown-linux-musl.tar.gz
           asset_content_type: application/octet-stream
   build-mac:
     runs-on: macOS-latest
@@ -84,6 +87,9 @@ jobs:
           MACOSX_DEPLOYMENT_TARGET: 10.7
           TARGET: x86_64-apple-darwin
         run: cargo build --release --verbose --target $TARGET --locked
+      - name: Get Upload URL
+        id: get_tag_name
+        run: echo "::set-output name=tag_name::${GITHUB_REF/refs\/tags\//}"
       - name: Compress Binary
         uses: master-atul/tar-action@v1.0.2
         id: compress
@@ -91,7 +97,7 @@ jobs:
           command: c
           files: |
             ./target/x86_64-apple-darwin/release/fistbump
-          outPath: fistbump-${{ github.ref }}-x86_64-apple-darwin.tar.gz
+          outPath: ./fistbump-${{ steps.get_tag_name.outputs.tag_name }}-x86_64-apple-darwin.tar.gz
       - name: Download Upload URL
         uses: actions/download-artifact@v1
         with:
@@ -107,8 +113,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: fistbump-${{ github.ref }}-x86_64-apple-darwin.tar.gz
-          asset_name: fistbump-${{ github.ref }}-x86_64-apple-darwin.tar.gz
+          asset_path: fistbump-${{ steps.get_tag_name.outputs.tag_name }}-x86_64-apple-darwin.tar.gz
+          asset_name: fistbump-${{ steps.get_tag_name.outputs.tag_name }}-x86_64-apple-darwin.tar.gz
           asset_content_type: application/octet-stream
   build-win:
     runs-on: windows-latest
@@ -124,6 +130,9 @@ jobs:
         env:
           TARGET: x86_64-pc-windows-msvc
         run: cargo build --release --verbose --target x86_64-pc-windows-msvc --locked
+      - name: Get Upload URL
+        id: get_tag_name
+        run: echo "::set-output name=tag_name::${GITHUB_REF/refs\/tags\//}"
       - name: Compress Binary
         uses: master-atul/tar-action@v1.0.2
         id: compress
@@ -131,7 +140,7 @@ jobs:
           command: c
           files: |
             ./target/x86_64-pc-windows-msvc/release/fistbump.exe
-          outPath: fistbump-${{ github.ref }}-x86_64-pc-windows-msvc.tar.gz
+          outPath: ./fistbump-${{ steps.get_tag_name.outputs.tag_name }}-x86_64-pc-windows-msvc.tar.gz
       - name: Download Upload URL
         uses: actions/download-artifact@v1
         with:
@@ -147,6 +156,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: fistbump-${{ github.ref }}-x86_64-pc-windows-msvc.tar.gz
-          asset_name: fistbump-${{ github.ref }}-x86_64-pc-windows-msvc.tar.gz
+          asset_path: fistbump-${{ steps.get_tag_name.outputs.tag_name }}-x86_64-pc-windows-msvc.tar.gz
+          asset_name: fistbump-${{ steps.get_tag_name.outputs.tag_name }}-x86_64-pc-windows-msvc.tar.gz
           asset_content_type: application/octet-stream
