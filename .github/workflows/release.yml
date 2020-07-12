@@ -84,7 +84,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: uploads
-          path: ./target/x86_64-unknown-linux-musl/release/linux.tar.gz
+          path: ./linux.tar.gz
   build-mac:
     runs-on: macOS-latest
     steps:
@@ -112,7 +112,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: uploads
-          path: ./target/x86_64-apple-darwin/release/macos.tar.gz
+          path: ./macos.tar.gz
   build-win:
     runs-on: windows-latest
     steps:
