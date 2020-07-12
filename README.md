@@ -12,6 +12,12 @@ Obtain the binary from the Releases page and put it somewhere on your PATH. Make
 
 **With Cargo:** Run `cargo install fistbump`
 
+### macOS
+
+Supported by macOS 10.7+. Packaged with [Homebrew](https://brew.sh/).
+
+**With Brew:** Run `brew tap nearengine/tap` then `brew install nearengine/tap/fistbump`
+
 ## Usage
 
 ### Configuration
@@ -22,22 +28,24 @@ Obtain the binary from the Releases page and put it somewhere on your PATH. Make
 
 ```json
 {
-  "current_version": "0.1.0",
-  "files": [
-    {
-      "path": "Cargo.toml",
-      "search": "version = \"{current_version}\"",
-      "replace": "version = \"{new_version}\""
-    }
-  ],
-  "search": "{current_version}",
-  "replace": "{new_version}"
+    "current_version": "0.1.0",
+    "files": [
+        {
+            "path": "Cargo.toml",
+            "search": "version = \"{current_version}\"",
+            "replace": "version = \"{new_version}\""
+        }
+    ],
+    "search": "{current_version}",
+    "replace": "{new_version}"
 }
 ```
 
 #### Defaults
 
-The `search` and `replace` config is always optional. They default to `{current_version}` and `{new_version}`, respectively. The only required fields are `current_version` and `files` (which must each contain a `path`).
+The `search` and `replace` configs are always optional. They default to `{current_version}` and `{new_version}`, respectively. You can change these to match on more specific strings, but don't forget to include the `{current_version}` or `{new_version}` in your string. They may only be plain strings, regex is not supported at this time.
+
+The only required fields are `current_version` and `files` (which must each contain a `path`).
 
 ### Arguments
 
@@ -53,11 +61,13 @@ Run `FISTBUMP_LOG_LEVEL=debug cargo run -- 1.0.0` to view all debugging output.
 
 ## Publish
 
-- `fistbump <version>`
-- `cargo update`
-- `git commit`, `git tag`, `git push --all`
-- `cargo publish --dry-run`
-- `cargo publish`
+-   `fistbump <version>`
+-   `cargo update`
+-   `git commit -am "<version>"`
+-   `git tag -a <version> -m "<release notes>"`
+-   `git push --all`
+-   `cargo publish --dry-run`
+-   `cargo publish`
 
 ## Contribute
 
