@@ -1,5 +1,6 @@
 # fistbump
 
+![Build](https://github.com/chrisshiplet/fistbump/workflows/Build%20&%20Test/badge.svg)
 [![Crates.io](https://img.shields.io/crates/v/fistbump.svg)](https://crates.io/crates/fistbump)
 [![Languages](https://img.shields.io/badge/languages-Rust-red.svg)]()
 [![license](http://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/chrisshiplet/fistbump/blob/master/LICENSE)
@@ -16,7 +17,12 @@ Obtain the binary from the Releases page and put it somewhere on your PATH. Make
 
 Supported by macOS 10.7+. Packaged with [Homebrew](https://brew.sh/).
 
-**With Brew:** Run `brew tap nearengine/tap` then `brew install nearengine/tap/fistbump`
+**With Brew:**
+
+```
+brew tap nearengine/tap
+brew install nearengine/tap/fistbump
+```
 
 ## Usage
 
