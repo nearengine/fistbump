@@ -71,7 +71,7 @@ Run `FISTBUMP_LOG_LEVEL=debug cargo run -- 1.0.0` to view all debugging output.
 -   `cargo update`
 -   `git commit -am "<version>"`
 -   `git tag -a <version> -m "<release notes>"`
--   `git push --all`
+-   `git push && git push --tags`
 -   `cargo publish --dry-run`
 -   `cargo publish`
 
