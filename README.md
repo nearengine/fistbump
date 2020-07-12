@@ -3,7 +3,7 @@
 ![Build](https://github.com/nearengine/fistbump/workflows/Build%20&%20Test/badge.svg)
 [![Crates.io](https://img.shields.io/crates/v/fistbump.svg)](https://crates.io/crates/fistbump)
 [![Languages](https://img.shields.io/badge/languages-Rust-red.svg)]()
-[![license](http://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/nearengine/fistbump/blob/master/LICENSE)
+[![license](http://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/nearengine/fistbump/blob/trunk/LICENSE)
 
 A tiny command line utility for managing your project's version numbers.
 
