@@ -78,7 +78,7 @@ jobs:
           command: c
           files: |
             ./target/x86_64-unknown-linux-musl/release/fistbump
-          outPath: ./fistbump-${{ steps.get_tag_name.outputs.tag_name }}-x86_64-unknown-linux-musl.tar.gz
+          outPath: ./linux.tar.gz
       - name: Upload Artifacts
         uses: actions/upload-artifact@v1
         with:
